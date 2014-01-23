@@ -1,5 +1,7 @@
 package kilobotgame;
 
+import java.util.ArrayList;
+
 public class Robot {
 	
 	/*
@@ -14,12 +16,21 @@ public class Robot {
 	/*
 	 * SECTION: Variables
 	 * 
-	 * (0,0) is top left corner of the screen.
-	 * 440 pixels is robot's feet touch the ground.
-	 * 382 pixels is robot's center.
-	 * Moving variables fix issue of robot stopping whenever a key is
-	 * 	released regardless of whether another key is still pressed.
-	 * No movement while robot is ducking.
+	 * - (0,0) is top left corner of the screen.
+	 * - 440 pixels is robot's feet touch the ground.
+	 * - 382 pixels is robot's center.
+	 * - Moving variables fix issue of robot stopping whenever a key is
+	 * 		released regardless of whether another key is still pressed.
+	 * - No movement while robot is ducking.
+	 * - Projectiles stored in ArrayList bc it'd (1) be inefficient to manually
+	 * 		create these everytime the robot shot and (2) ArrayList's size increases
+	 * 		dynamically. 
+	 * - We also dynamically remove projectiles that become invisible. 
+	 * - Basically, shoot creates a projectile as visible, run will update its movement
+	 * 		until it goes off-screen. When off-screen, it becomes invisible and we remove
+	 * 		it from robot's ArrayList of projectiles.
+	 * - Amount of projectiles on one screen dictates the memory this all takes up.
+	 * 
 	 */
 	/* 
 
@@ -32,6 +43,7 @@ public class Robot {
 	private int centerY = robotStartY;
 	private int speedX = 0; // x-velocity; negative means going left
 	private int speedY = 1; // y-velocity; y1 > y2 means rising into the air
+	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	private static Background bg1 = GameController.getBg1();
 	private static Background bg2 = GameController.getBg2();
 
@@ -81,7 +93,7 @@ public class Robot {
 	}
 	
 	/*
-	 * SECTION: Game Loop Method
+	 * SECTION: Game Loop Methods
 	 * 
 	 * X-section handles moving the character left & right, and scrolling the background.
 	 * Y-section handles jumping
@@ -123,6 +135,22 @@ public class Robot {
 		if( centerX + speedX <= robotStartX-40 ) {
 			centerX = robotStartX-39;
 		}
+	}
+	
+	/*
+	 * SECTION: Behavioral Methods
+	 * 
+	 * - NOTE: Ducking and jumping interrupt continuous fire caused by holding
+	 * 		down the CTRL key. There is no current way to get around this as
+	 * 		whenever we call shoot(), we are creating a visible bullet. Bullets
+	 * 		in the game are not physically stored even if they are stored 
+	 * 		(in an ArrayList) in the code.
+	 * - NOTE 2: Firing while moving CAN be implemented, but it doesn't look consistent
+	 * 		unless we were to change the firing rate of the bullets.
+	 */
+	public void shoot() {
+		Projectile p = new Projectile(centerX + 50, centerY - 25);
+		projectiles.add(p);
 	}
 	
 	/*
@@ -190,6 +218,14 @@ public class Robot {
 
 	public void setDucked(boolean ducked) {
 		this.ducked = ducked;
+	}
+
+	public ArrayList<Projectile> getProjectiles() {
+		return projectiles;
+	}
+
+	public void setProjectiles(ArrayList<Projectile> projectiles) {
+		this.projectiles = projectiles;
 	}
 
 }

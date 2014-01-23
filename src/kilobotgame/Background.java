@@ -20,7 +20,7 @@ public class Background {
 	}
 	
 	/*
-	 * SECTION: Game Loop Method
+	 * SECTION: Game Loop Methods
 	 */
 	
 	public void update() {
@@ -57,9 +57,4 @@ public class Background {
 	public void setSpeedX(int speedX) {
 		this.speedX = speedX;
 	}
-	
-	public static int maxWidth() {
-		return bgWidth;
-	}
-
 }

@@ -11,7 +11,7 @@ public class Heliboy extends Enemy {
 	}
 	
 	/*
-	 * SECTION: Game Loop Method
+	 * SECTION: Game Loop Methods
 	 */
 	public void update() {
 		

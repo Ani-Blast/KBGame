@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class GameController extends Applet implements Runnable, KeyListener {
 
@@ -15,6 +16,8 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	 * SECTION: Constants
 	 */
 	private static final long serialVersionUID = 1L;
+	final static int androidWidth = 800;
+	final static int androidLength = 480;
 	
 	/*
 	 * SECTION: Variables
@@ -31,10 +34,12 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	
 	/*
 	 * SECTION: Applet/Runnable Framework Methods
+	 * 
+	 * See Robot.java for explanation behind Projectiles.
 	 */
 	@Override
 	public void init() {
-		setSize(800, 480); //800p x 480p (Standard Android res)
+		setSize( androidWidth, androidLength ); //800p x 480p (Standard Android res)
 		setBackground(Color.BLACK);
 		setFocusable(true); //Sets the environment's controls into the applet
 		addKeyListener(this);
@@ -57,7 +62,7 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	@Override
 	public void start() {
 		bg1 = new Background( 0, 0 );
-		bg2 = new Background( Background.maxWidth(), 0 );
+		bg2 = new Background( Background.bgWidth, 0 );
 		
 		hb1 = new Heliboy(340, 360);
 		hb2 = new Heliboy(700, 360);
@@ -76,6 +81,16 @@ public class GameController extends Applet implements Runnable, KeyListener {
 				currentSprite = characterJumped;
 			} else if( !robot.hasDucked() && !robot.hasJumped() ) {
 				currentSprite = character;
+			}
+			
+			ArrayList<Projectile> projectiles = robot.getProjectiles();
+			for( int i = 0; i < projectiles.size(); i++ ) {
+				Projectile p = projectiles.get(i);
+				if( p.isVisible() ) {
+					p.update();
+				} else {
+					projectiles.remove(i);
+				}
 			}
 			
 			hb1.update();
@@ -112,6 +127,13 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	public void paint(Graphics scene) {
 		scene.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
 		scene.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
+		
+		ArrayList<Projectile> projectiles = robot.getProjectiles();
+		for( int i = 0; i < projectiles.size(); i++) {
+			Projectile p = projectiles.get(i);
+			scene.setColor(Color.YELLOW);
+			scene.fillRect(p.getX(), p.getY(), 10, 5);
+		}
 		
 		scene.drawImage(currentSprite, robot.getCenterX()-61, 
 				robot.getCenterY()-63, this);
@@ -170,6 +192,11 @@ public class GameController extends Applet implements Runnable, KeyListener {
 				break;
 			case KeyEvent.VK_SPACE:
 				robot.jump();
+				break;
+			case KeyEvent.VK_CONTROL:
+				if( !robot.hasDucked() && !robot.hasJumped() ) {
+					robot.shoot();
+				}
 				break;
 		}
 	}

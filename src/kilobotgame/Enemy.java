@@ -9,7 +9,7 @@ public class Enemy {
 	private Background bg = GameController.getBg1();
 
 	/*
-	 * SECTION: Game Loop Method
+	 * SECTION: Game Loop Methods
 	 */
 	public void update() {
 		centerX += speedX;

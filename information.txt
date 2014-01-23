@@ -60,3 +60,5 @@ Whenever we add a new object to our game, we have to do the following:
 3. We must paint the new object in the paint() method.
 
 Images are painted in the order they appear.
+
+It would be extremely time consuming and inefficient if we were to manually create bullets each time that the player pressed "shoot."
