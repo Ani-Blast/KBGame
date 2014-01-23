@@ -5,7 +5,7 @@ public class Background {
 	/*
 	 * SECTION: Constants
 	 */
-	final int bgWidth = 2160;
+	final static int bgWidth = 2160;
 
 	/*
 	 * SECTION: Variables
@@ -56,6 +56,10 @@ public class Background {
 
 	public void setSpeedX(int speedX) {
 		this.speedX = speedX;
+	}
+	
+	public static int maxWidth() {
+		return bgWidth;
 	}
 
 }

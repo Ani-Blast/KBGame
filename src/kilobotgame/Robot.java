@@ -82,11 +82,14 @@ public class Robot {
 	
 	/*
 	 * SECTION: Game Loop Method
+	 * 
+	 * X-section handles moving the character left & right, and scrolling the background.
+	 * Y-section handles jumping
+	 * Section after prevents robot from going beyond X coordinate of 0 as
+	 * 	robot's leftmost hand touches the wall at centerX = 61.
+	 * 
 	 */
 	public void update() {
-		
-		// Moves Char or scrolls background accordingly
-		
 		if( speedX < 0 ) {
 			centerX += speedX;
 		} 
@@ -102,13 +105,10 @@ public class Robot {
 			bg2.setSpeedX( -moveSpeed );
 		}
 		
-		// Updates Y Position
 		centerY += speedY;
 		if( centerY + speedY >= robotStartY ) {
 			centerY = robotStartY;
 		}
-		
-		// Handles Jumping
 		if( jumped ) {
 			speedY += 1; // Start the process of falling
 			
@@ -119,11 +119,6 @@ public class Robot {
 				jumped = false;
 			}
 		}
-		
-		/*
-		 *  Prevents going beyond X coordinate of 0
-		 *  Robot's leftmost hand touches the wall at centerX = 61
-		 */
 		
 		if( centerX + speedX <= robotStartX-40 ) {
 			centerX = robotStartX-39;

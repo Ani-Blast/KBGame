@@ -22,8 +22,9 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	 * Image and Graphics for use in double buffering
 	 */
 	private Robot robot;
+	private Heliboy hb1, hb2;
 	private Image image, currentSprite, character, characterDown, 
-		characterJumped, background;
+		characterJumped, heliboy, background;
 	private URL base;
 	private Graphics second;
 	private static Background bg1, bg2;
@@ -45,17 +46,21 @@ public class GameController extends Applet implements Runnable, KeyListener {
 		} catch( Exception e ) {
 		}
 		
-		character = getImage( base, "data/character.png" );
-		characterDown = getImage( base, "data/down.png" );
-		characterJumped = getImage( base, "data/jumped.png" );
-		background = getImage( base, "data/background.png" );
+		character = getImage( base, "data/character.png" ); //122x126
+		characterDown = getImage( base, "data/down.png" ); //122x126
+		characterJumped = getImage( base, "data/jumped.png" ); //122x126
+		heliboy = getImage( base, "data/heliboy.png" ); //96 x 96
+		background = getImage( base, "data/background.png" ); //2160x480
 		currentSprite = character;
 	}
 
 	@Override
 	public void start() {
 		bg1 = new Background( 0, 0 );
-		bg2 = new Background( 2160, 0 );
+		bg2 = new Background( Background.maxWidth(), 0 );
+		
+		hb1 = new Heliboy(340, 360);
+		hb2 = new Heliboy(700, 360);
 		
 		robot = new Robot();
 		
@@ -73,6 +78,8 @@ public class GameController extends Applet implements Runnable, KeyListener {
 				currentSprite = character;
 			}
 			
+			hb1.update();
+			hb2.update();
 			bg1.update();
 			bg2.update();
 			
@@ -97,6 +104,9 @@ public class GameController extends Applet implements Runnable, KeyListener {
 
 	/*
 	 * SECTION: Game Loop Methods
+	 * 
+	 * drawImage places the top left corner of the image at the (x,y) coordinates
+	 * 	you provide.
 	 */
 	@Override
 	public void paint(Graphics scene) {
@@ -105,6 +115,9 @@ public class GameController extends Applet implements Runnable, KeyListener {
 		
 		scene.drawImage(currentSprite, robot.getCenterX()-61, 
 				robot.getCenterY()-63, this);
+		
+		scene.drawImage(heliboy, hb1.getCenterX()-48, hb1.getCenterY()-48, this);
+		scene.drawImage(heliboy, hb2.getCenterX()-48, hb2.getCenterY()-48, this);
 	}
 
 	public static Background getBg1() {
@@ -179,6 +192,9 @@ public class GameController extends Applet implements Runnable, KeyListener {
 				System.out.println("Stop moving down!");
 				break;
 			case KeyEvent.VK_SPACE:
+				if( robot.hasDucked() ) {
+					robot.setDucked(false);
+				}
 				break;
 		}		
 	}
