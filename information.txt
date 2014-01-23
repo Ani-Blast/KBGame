@@ -1,0 +1,62 @@
+Simultaneous processes held together with threads.
+
+A game loop is the central component of a game. People refer to it as the 
+	heartbeat of the game. To put simply, it is a loop that will continuously 
+	check for changes in the game and make necessary updates. 
+	
+Game about a Q-bot (cube robot)* going around shooting things and jumping across platforms.
+
+Threads require a run method that determines what will happen in that thread.
+
+Our game loop needs to do is the following:
+
+1. Update characters
+2. Update environment
+3. Repaint the scene.
+4. Sleep for 17 milliseconds.
+
+60 fps is what most people consider an ideal processing speed (no noticeable glitches). 30 is bare minimum.
+Sleeping for 17(1000/60) milliseconds each time that the game loop runs means that the game will update every 
+	17 milliseconds (which results in 60 updates per second)
+	
+When the applet runs for the first time, it will run the init() method 
+	(much like how a typical program runs the main(String args[]) method). 
+	
+keyPressed - when the key goes down
+keyReleased - when the key comes up
+keyTyped - when the unicode character represented by this key is sent by the keyboard to system input.
+
+In our 2D-platformer, we will need at least five buttons to start. 
+	The four directional arrows will each be a button, and for now we will use the Space Bar for jump.
+	
+New Class! Robot.java!
+He can: 
+1. Manage x, y coordinates and speed.
+2. Make updates to speed and position.
+3. Allow other classes to retrieve its x, y related variables.
+
+Therefore, the methods of this class will be divided into these categories:
+
+1. Constantly updated methods that are called on each iteration of the game loop.
+2. Methods that are only called upon player input.
+3. Helper methods that retrieve and change the value of variables in the class.
+
+Pixels are either on or off.
+
+By convention and technological limitations, we choose the top left corner as (0,0)
+
+Going back to the update() method, let's first list its purposes:
+
+1. It should update the position.
+2. If the background is no longer visible, it should either destroy itself (to free up memory) or be 
+	recycled by moving to a visible (or soon to be visible) location.
+
+As a general rule:
+Whenever we add a new object to our game, we have to do the following:
+0. Create a class for it so that we have a blueprint for it. (We did this for our background).
+1. Within the StartingClass, we must create objects using this class (first by declaring them as 
+	variables below the class declaration and second by assigning them values in the start() method).
+2. Within the run() method, we must call the object's update() method.
+3. We must paint the new object in the paint() method.
+
+Images are painted in the order they appear.
