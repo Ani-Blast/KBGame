@@ -62,3 +62,8 @@ Whenever we add a new object to our game, we have to do the following:
 Images are painted in the order they appear.
 
 It would be extremely time consuming and inefficient if we were to manually create bullets each time that the player pressed "shoot."
+
+Theoretically, animations are simple. All you need to do is store a sequence of images (that we will refer to as frames) and the duration 
+that each image will be displayed for. Next you just need to display the current frame in the sequence for the duration specified. 
+
+Threads switch back and forth rather than run simultaneously. 

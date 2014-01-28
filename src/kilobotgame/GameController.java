@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
 import java.util.ArrayList;
+import kilobotgame.framework.Animation;
 
 public class GameController extends Applet implements Runnable, KeyListener {
 
