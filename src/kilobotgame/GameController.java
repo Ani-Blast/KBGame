@@ -23,20 +23,24 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	/*
 	 * SECTION: Variables
 	 * 
-	 * Image and Graphics for use in double buffering
+	 * - Image and Graphics for use in double buffering
+	 * - anim for the MC, hanim for the heliboys
 	 */
 	private Robot robot;
 	private Heliboy hb1, hb2;
-	private Image image, currentSprite, character, characterDown, 
-		characterJumped, heliboy, background;
+	private Image image, currentSprite, character, character2, character3, 
+		characterDown, characterJumped, heliboy, heliboy2, heliboy3, heliboy4,
+		heliboy5, background;
 	private URL base;
 	private Graphics second;
+	private Animation anim, hanim;
 	private static Background bg1, bg2;
 	
 	/*
 	 * SECTION: Applet/Runnable Framework Methods
 	 * 
-	 * See Robot.java for explanation behind Projectiles.
+	 * - See Robot.java for explanation behind Projectiles.
+	 * - Add Frames & their durations for the Animation class
 	 */
 	@Override
 	public void init() {
@@ -53,11 +57,36 @@ public class GameController extends Applet implements Runnable, KeyListener {
 		}
 		
 		character = getImage( base, "data/character.png" ); //122x126
+		character2 = getImage( base, "data/character2.png" ); //122x126
+		character3 = getImage( base, "data/character3.png" ); //122x126
 		characterDown = getImage( base, "data/down.png" ); //122x126
 		characterJumped = getImage( base, "data/jumped.png" ); //122x126
+		
 		heliboy = getImage( base, "data/heliboy.png" ); //96 x 96
+		heliboy2 = getImage( base, "data/heliboy2.png" ); //96 x 96
+		heliboy3 = getImage( base, "data/heliboy3.png" ); //96 x 96
+		heliboy4 = getImage( base, "data/heliboy4.png" ); //96 x 96
+		heliboy5 = getImage( base, "data/heliboy5.png" ); //96 x 96
+		
 		background = getImage( base, "data/background.png" ); //2160x480
-		currentSprite = character;
+		
+		anim = new Animation();
+		anim.addFrame( character, 1250 );
+		anim.addFrame( character2, 50 );
+		anim.addFrame( character3, 50 );
+		anim.addFrame( character2, 50 );
+		
+		hanim = new Animation();
+		hanim.addFrame( heliboy, 100 );
+		hanim.addFrame( heliboy2, 100 );
+		hanim.addFrame( heliboy3, 100 );
+		hanim.addFrame( heliboy4, 100 );
+		hanim.addFrame( heliboy5, 100 );
+		hanim.addFrame( heliboy4, 100 );
+		hanim.addFrame( heliboy3, 100 );
+		hanim.addFrame( heliboy2, 100 );
+		
+		currentSprite = anim.getImage();
 	}
 
 	@Override
@@ -81,7 +110,7 @@ public class GameController extends Applet implements Runnable, KeyListener {
 			if( robot.hasJumped() ) {
 				currentSprite = characterJumped;
 			} else if( !robot.hasDucked() && !robot.hasJumped() ) {
-				currentSprite = character;
+				currentSprite = anim.getImage();
 			}
 			
 			ArrayList<Projectile> projectiles = robot.getProjectiles();
@@ -99,6 +128,7 @@ public class GameController extends Applet implements Runnable, KeyListener {
 			bg1.update();
 			bg2.update();
 			
+			animate();
 			repaint(); //update Graphics [See AWT and Swing]
 			
 			try {
@@ -121,8 +151,9 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	/*
 	 * SECTION: Game Loop Methods
 	 * 
-	 * drawImage places the top left corner of the image at the (x,y) coordinates
+	 * - drawImage places the top left corner of the image at the (x,y) coordinates
 	 * 	you provide.
+	 * - The higher the value for animate's variables, the faster each frame updates.
 	 */
 	@Override
 	public void paint(Graphics scene) {
@@ -139,8 +170,13 @@ public class GameController extends Applet implements Runnable, KeyListener {
 		scene.drawImage(currentSprite, robot.getCenterX()-61, 
 				robot.getCenterY()-63, this);
 		
-		scene.drawImage(heliboy, hb1.getCenterX()-48, hb1.getCenterY()-48, this);
-		scene.drawImage(heliboy, hb2.getCenterX()-48, hb2.getCenterY()-48, this);
+		scene.drawImage(hanim.getImage(), hb1.getCenterX()-48, hb1.getCenterY()-48, this);
+		scene.drawImage(hanim.getImage(), hb2.getCenterX()-48, hb2.getCenterY()-48, this);
+	}
+	
+	public void animate() {
+		anim.update( 10 );
+		hanim.update( 50 );
 	}
 
 	public static Background getBg1() {
@@ -215,7 +251,7 @@ public class GameController extends Applet implements Runnable, KeyListener {
 				System.out.println("Stop moving up!");
 				break;
 			case KeyEvent.VK_DOWN:
-				currentSprite = character;
+				currentSprite = anim.getImage();
 				robot.setDucked(false);
 				System.out.println("Stop moving down!");
 				break;
