@@ -17,8 +17,8 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	 * SECTION: Constants
 	 */
 	private static final long serialVersionUID = 1L;
-	final static int androidWidth = 800;
-	final static int androidLength = 480;
+	public final static int androidWidth = 800;
+	public final static int androidLength = 480;
 	
 	/*
 	 * SECTION: Variables
@@ -140,22 +140,6 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	}
 	
 	@Override
-	public void stop() {
-	}
-
-	@Override
-	public void destroy() {
-	}
-
-
-	/*
-	 * SECTION: Game Loop Methods
-	 * 
-	 * - drawImage places the top left corner of the image at the (x,y) coordinates
-	 * 	you provide.
-	 * - The higher the value for animate's variables, the faster each frame updates.
-	 */
-	@Override
 	public void paint(Graphics scene) {
 		scene.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
 		scene.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
@@ -174,6 +158,24 @@ public class GameController extends Applet implements Runnable, KeyListener {
 		scene.drawImage(hanim.getImage(), hb2.getCenterX()-48, hb2.getCenterY()-48, this);
 	}
 	
+	
+	@Override
+	public void stop() {
+	}
+
+	@Override
+	public void destroy() {
+	}
+
+
+	/*
+	 * SECTION: Game Loop Methods
+	 * 
+	 * - drawImage places the top left corner of the image at the (x,y) coordinates
+	 * 	you provide.
+	 * - The higher the value for animate's variables, the faster each frame updates.
+	 */
+
 	public void animate() {
 		anim.update( 10 );
 		hanim.update( 50 );

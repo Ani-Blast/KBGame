@@ -10,7 +10,7 @@ public class Animation {
 	 * 
 	 * - frames contains the images and their display durations
 	 * - animTime is how much time has passed since last image was displayed
-	 * - totalDuration is time displayed per frame
+	 * - totalDuration is time displayed per frameSet
 	 * - Command order in synchronized ensures what's run before what when it comes
 	 * 		to assigning tasks via multiple Threads.
 	 */
@@ -44,10 +44,17 @@ public class Animation {
 	
 	/*
 	 * SECTION: Game Loop Methods
+	 * 
+	 * - animTime increases through update. 
+	 * - When the time exceeds the totalDuration for a specific frameSet, it 
+	 * 		loops it back to the beginning.
+	 * - The while loop controls moving from one frame to the next in a given
+	 * 		frameSet.
 	 */
 	public synchronized void update( long elapsedTime ) {
 		if( frames.size() > 1 ) {
 			animTime += elapsedTime;
+			System.out.println( currentFrame + " , " + animTime + " , " + getFrame( currentFrame ).endTime );
 			if( animTime >= totalDuration ) {
 				animTime = animTime % totalDuration;
 				currentFrame = 0;
