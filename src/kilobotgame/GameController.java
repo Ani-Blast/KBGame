@@ -35,6 +35,7 @@ public class GameController extends Applet implements Runnable, KeyListener {
 	private Graphics second;
 	private Animation anim, hanim;
 	private static Background bg1, bg2;
+	public static Image tiledirt, tileocean;
 	
 	/*
 	 * SECTION: Applet/Runnable Framework Methods

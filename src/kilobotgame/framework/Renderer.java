@@ -16,8 +16,8 @@ public class Renderer extends Applet {
 	 */
 	static int[][] tilemap;
 	static int rows, columns;
-	public final static int boardWidth = 50;
-	public final static int boardLength = 30;
+	public final static int maxPixelsPerBoardWidth = 50;
+	public final static int maxPixelsPerBoardLength = 30;
 	public final static int pixelLength = 16;
 	
 	/*
@@ -78,9 +78,9 @@ public class Renderer extends Applet {
 	 * - createTilemap will make a 2D array. Then, using a RNG, fill the array with ints btwn 0-4
 	 */
 	private void createTilemap() {
-		tilemap = new int[boardWidth][boardLength];
-		rows = boardWidth;
-		columns = boardLength;
+		tilemap = new int[maxPixelsPerBoardWidth][maxPixelsPerBoardLength];
+		rows = maxPixelsPerBoardWidth;
+		columns = maxPixelsPerBoardLength;
 		
 		Random rng = new Random();
 		for( int row = 0; row < rows; row++ ) {
